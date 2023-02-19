@@ -71,6 +71,11 @@ export default function Game() {
     setCurrentMove(nextHistory.length - 1)
   }
 
+  function resetGame() {
+    setHistory([Array(9).fill(null)])
+    setCurrentMove(0)
+  }
+
   function jumpTo(nextMove) {
     setCurrentMove(nextMove)
   }
@@ -92,6 +97,9 @@ export default function Game() {
   })
   return (
     <div className="game">
+      <div>
+        <button onClick={resetGame}>New Game</button>
+      </div>
       <div className="game-board">
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
       </div>

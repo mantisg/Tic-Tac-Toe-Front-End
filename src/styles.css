@@ -78,13 +78,15 @@ body {
 }
 
 .status {
+  margin-top: 10px;
   margin-bottom: 10px;
 }
 .game {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .game-info {
   margin-left: 20px;
+  margin-top: 20px;
 }
