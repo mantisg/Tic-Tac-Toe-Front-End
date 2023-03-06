@@ -1,5 +1,4 @@
-import Square from './square-component.js'
-import styles from './styles.css'
+import Square from './Square'
 
 export default function Board({xIsNext, squares, onPlay}) {
 

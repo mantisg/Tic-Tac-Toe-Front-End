@@ -1,11 +1,16 @@
 import {useEffect, useState} from 'react'
-import Game from './Components/game-component.js'
-import './styles.css'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link
+} from "react-router-dom";
+import Game from './Game/Game'
 
 function App() {
   const [games, setGames] = useState([])
   const [history, setHistory] = useState([Array(9).fill(null)])
-
+  
   useEffect(() => {
     fetch("http://127.0.0.1:5000/games")
     .then(response => response.json())
@@ -33,14 +38,17 @@ function App() {
       {method: 'DELETE'}
     )
   }
-
+  
   function displayExistingGames() {
-    const existingGames = games.map(g => (<div key={g.id}>
-      <p>{g.id}</p>
-      <button onClick={() => deleteGame(g.id)}>Delete Game</button>
-    </div>))
-
-    return existingGames
+    return (
+      <ul>
+        {games.map(g => (<li key={g.id}>
+          <p>{g.id}</p>
+          <Link to={`/games/${g.id}`}>View</Link>
+          <button onClick={() => deleteGame(g.id)}>Delete Game</button>
+        </li>))}
+      </ul>
+    )
   }
 
   function startNewGame() {
@@ -51,12 +59,21 @@ function App() {
       </div>
     )
   }
-
   return (
-    <div className='App'>
-      {displayExistingGames()}
-      <button onClick={startNewGame}>New Game</button>
-    </div>
+    <>
+      <Router>
+        <div>
+          <button onClick={startNewGame}>New Game</button>
+          <h2>Games</h2> 
+          {displayExistingGames()}
+
+          <Routes>
+            <Route path="/games/:id" component={Game} />
+          </Routes>
+        </div>
+      </Router>
+    </>
   )
 }
+
 export default App

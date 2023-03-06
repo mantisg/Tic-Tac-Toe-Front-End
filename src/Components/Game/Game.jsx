@@ -1,6 +1,6 @@
 import {useState} from 'react'
-import Board from './board-component.js'
-import styles from './styles.css'
+import Board from './Board'
+import './game.css'
 
 export default function Game({history, setHistory}) {
   const [currentMove, setCurrentMove] = useState(0)

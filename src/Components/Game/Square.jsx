@@ -1,5 +1,3 @@
-import styles from './styles.css'
-
 export default function Square({value, onSquareClick}) {
 
   return (
