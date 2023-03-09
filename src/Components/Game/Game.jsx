@@ -1,11 +1,27 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
+import {useNavigate} from 'react-router-dom'
 import Board from './Board'
 import './game.css'
 
-export default function Game({history, setHistory}) {
+function Game({history, setHistory, gameId}) {
+  const navigate = useNavigate()
   const [currentMove, setCurrentMove] = useState(0)
   const xIsNext = currentMove % 2 === 0
   const currentSquares = history[currentMove]
+
+  useEffect(() => {
+    getGame(gameId)
+  }, [])
+
+  const getGame = async (gameId, setCurrentGame) => {
+    await fetch(`http://127.0.0.1:5000/game/${gameId}`,
+      {method: 'GET'},
+    )
+    .then(res => res.json())
+    .then(data => {
+      console.log(data)
+    })
+  }
 
   function handlePlay(nextSquares) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares]
@@ -39,6 +55,7 @@ export default function Game({history, setHistory}) {
   })
   return (
     <div className="game">
+      <button onClick={() => navigate('/')}>Home</button>
       <div className="game-board">
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
       </div>
@@ -48,3 +65,5 @@ export default function Game({history, setHistory}) {
     </div>
   )
 }
+
+export default Game
