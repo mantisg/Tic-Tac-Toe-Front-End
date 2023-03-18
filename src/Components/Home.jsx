@@ -1,17 +1,15 @@
-import {useEffect, useState} from 'react'
-import {useNavigate, Link} from 'react-router-dom'
+import {useEffect} from 'react'
 import {deleteGame, getAllGames} from '../api-comm'
 
 function Home({games, setGames, setIsLoading, handleGetGame, handleCreateGame}) {
-  	const navigate = useNavigate()
-  
 	useEffect(() => {
 		getAllGames()
     	.then(res => {
+    			console.log('got here!')
       		setGames(res)
       		setIsLoading(false)
     	})
-  	}, [])
+  	}, [setGames, setIsLoading])
 
   	function handleDeleteGame(gameId) {
   		return deleteGame(gameId)
@@ -23,7 +21,7 @@ function Home({games, setGames, setIsLoading, handleGetGame, handleCreateGame}) 
           <button onClick={handleCreateGame}>New Game</button>
           <h2>Games</h2> 
 	      <ul>
-	        {games.map(g => (<li key={g.id}>
+	        {games.length && games.map(g => (<li key={g.id}>
 	          <p>{g.id}</p>
 	          <button onClick={() => handleGetGame(g.id)}>View</button>
 	          <button onClick={() => handleDeleteGame(g.id)}>Delete Game</button>

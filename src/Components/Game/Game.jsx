@@ -10,7 +10,7 @@ function Game({history, setHistory, gameId}) {
 
   useEffect(() => {
     updateHistory(gameId, history)
-  }, [history])
+  }, [gameId, history])
 
   function handlePlay(nextSquares) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares]

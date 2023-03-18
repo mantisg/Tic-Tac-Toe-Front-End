@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {useState} from 'react'
 import { Routes, Route, useNavigate } from "react-router-dom"
 import {createGame, getGame} from '../api-comm'
 import Game from './Game/Game'
