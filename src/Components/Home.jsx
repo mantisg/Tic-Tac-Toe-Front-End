@@ -21,7 +21,7 @@ function Home({games, setGames, setIsLoading, handleGetGame, handleCreateGame}) 
           <button onClick={handleCreateGame}>New Game</button>
           <h2>Games</h2> 
 	      <ul>
-	        {games.length && games.map(g => (<li key={g.id}>
+	        {games.length > 0 && games.map(g => (<li key={g.id}>
 	          <p>{g.id}</p>
 	          <button onClick={() => handleGetGame(g.id)}>View</button>
 	          <button onClick={() => handleDeleteGame(g.id)}>Delete Game</button>
