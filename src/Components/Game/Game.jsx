@@ -1,27 +1,16 @@
 import {useState, useEffect} from 'react'
-import {useNavigate} from 'react-router-dom'
+import {updateHistory} from '../../api-comm'
 import Board from './Board'
 import './game.css'
 
 function Game({history, setHistory, gameId}) {
-  const navigate = useNavigate()
-  const [currentMove, setCurrentMove] = useState(0)
+  const [currentMove, setCurrentMove] = useState(history.length - 1)
   const xIsNext = currentMove % 2 === 0
   const currentSquares = history[currentMove]
 
   useEffect(() => {
-    getGame(gameId)
-  }, [])
-
-  const getGame = async (gameId, setCurrentGame) => {
-    await fetch(`http://127.0.0.1:5000/game/${gameId}`,
-      {method: 'GET'},
-    )
-    .then(res => res.json())
-    .then(data => {
-      console.log(data)
-    })
-  }
+    updateHistory(gameId, history)
+  }, [history])
 
   function handlePlay(nextSquares) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares]
@@ -30,7 +19,7 @@ function Game({history, setHistory, gameId}) {
   }
 
   function resetGame() {
-    setHistory([Array(9).fill(null)])
+    setHistory([Array(9).fill(0)])
     setCurrentMove(0)
   }
 
@@ -55,11 +44,11 @@ function Game({history, setHistory, gameId}) {
   })
   return (
     <div className="game">
-      <button onClick={() => navigate('/')}>Home</button>
       <div className="game-board">
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
       </div>
       <div className="game-info">
+        <button onClick={resetGame}>Reset Game</button>
         <ol>{moves}</ol>
       </div>
     </div>

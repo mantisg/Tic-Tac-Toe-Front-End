@@ -1,11 +1,10 @@
 export default function Square({value, onSquareClick}) {
-
   return (
     <button
       className="square"
       onClick={onSquareClick}
     >
-      {value}
+      {["X", "O"].includes(value) ? value : null}
     </button>
   )
 }

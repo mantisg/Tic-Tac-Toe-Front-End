@@ -12,3 +12,11 @@ body {
   justify-content: center;
   width: 100%;
 }
+.homeflex {
+  display: flex;
+  justify-content: center;
+}
+
+.home {
+  width: 300px;
+}
