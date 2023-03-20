@@ -1,11 +1,11 @@
 import {useEffect} from 'react'
 import {deleteGame, getAllGames} from '../api-comm'
+import "../styles.css"
 
 function Home({games, setGames, setIsLoading, handleGetGame, handleCreateGame}) {
 	useEffect(() => {
 		getAllGames()
     	.then(res => {
-    			console.log('got here!')
       		setGames(res)
       		setIsLoading(false)
     	})
@@ -18,13 +18,13 @@ function Home({games, setGames, setIsLoading, handleGetGame, handleCreateGame}) 
 	
 	return (
         <div>
-          <button onClick={handleCreateGame}>New Game</button>
-          <h2>Games</h2> 
-	      <ul>
-	        {games.length > 0 && games.map(g => (<li key={g.id}>
+          <button className="newgame" onClick={handleCreateGame}>New Game</button>
+          <h2 className="game-title">Games</h2> 
+	      <ul className="game-list">
+	        {games.length > 0 && games.map(g => (<li className="game-link" key={g.id}>
 	          <p>{g.id}</p>
 	          <button onClick={() => handleGetGame(g.id)}>View</button>
-	          <button onClick={() => handleDeleteGame(g.id)}>Delete Game</button>
+	          <button className="delete" onClick={() => handleDeleteGame(g.id)}>Delete Game</button>
 	        </li>))}
 	      </ul>
         </div>
