@@ -2,7 +2,7 @@ import {useEffect} from 'react'
 import {deleteGame, getAllGames} from '../api-comm'
 import "../styles.css"
 
-function Home({games, setGames, setIsLoading, handleGetGame, handleCreateGame}) {
+function Home({games, setGames, setIsLoading, handleGetGame, handleCreateGame, handleNav}) {
 	useEffect(() => {
 		getAllGames()
     	.then(res => {
@@ -18,7 +18,13 @@ function Home({games, setGames, setIsLoading, handleGetGame, handleCreateGame}) 
 	
 	return (
         <div>
-          <button className="newgame" onClick={handleCreateGame}>New Game</button>
+	        <div className="top-btns">
+	          <button className="newgame" onClick={handleCreateGame}>New Game</button>
+	          <div className="in-up">
+	          	<button className="login-btn" onClick={() => handleNav('/login')}>Login</button>
+	          	<a onClick={() => handleNav('/signup')}>Sign Up</a>
+	          </div>
+	        </div>
           <h2 className="game-title">Games</h2> 
 	      <ul className="game-list">
 	        {games.length > 0 && games.map(g => (<li className="game-link" key={g.id}>

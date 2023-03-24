@@ -3,6 +3,8 @@ import { Routes, Route, useNavigate } from "react-router-dom"
 import {createGame, getGame} from '../api-comm'
 import Game from './Game/Game'
 import Home from './Home'
+import Login from './Login'
+import Signup from './Signup'
 import '../styles.css'
 
 function App() {
@@ -11,6 +13,8 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(false)
   const [gameId, setGameId] = useState([])
   const [games, setGames] = useState([])
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
   const navigate = useNavigate()
 
     function handleCreateGame() {
@@ -34,6 +38,10 @@ function App() {
         })
     }
 
+    function handleNav(path) {
+        return navigate(path)
+    }
+
     function handleClick() {
         setIsPlaying(false)
         navigate('/')
@@ -48,8 +56,19 @@ function App() {
         </div>  
       }
       <Routes>
-        <Route path="/" element={<Home games={games} setGames={setGames} setIsLoading={setIsLoading} handleGetGame={handleGetGame} handleCreateGame={handleCreateGame} />} />
+        <Route path="/" element={
+            <Home
+                games={games}
+                setGames={setGames}
+                setIsLoading={setIsLoading}
+                handleGetGame={handleGetGame}
+                handleCreateGame={handleCreateGame}
+                handleNav={handleNav}
+            />}
+        />
         <Route path="/games/:id" element={<Game history={history} setHistory={setHistory} gameId={gameId} />} />
+        <Route path="/login" element={<Login handleNav={handleNav} username={username} password={password} />}/>
+        <Route path="/signup" element={<Signup handleNav={handleNav} setUsername={setUsername} setPassword={setPassword} />}/>
       </Routes>
     </>
   )
