@@ -5,6 +5,7 @@ import Game from './Game/Game'
 import Home from './Home'
 import Login from './Login'
 import Signup from './Signup'
+import Profile from './Profile'
 import '../styles.css'
 
 function App() {
@@ -58,10 +59,10 @@ function App() {
       <Routes>
         <Route path="/" element={
             <Home
-                games={games}
-                setGames={setGames}
+                history={history}
+                setHistory={setHistory}
+                gameId={gameId}
                 setIsLoading={setIsLoading}
-                handleGetGame={handleGetGame}
                 handleCreateGame={handleCreateGame}
                 handleNav={handleNav}
             />}
@@ -69,6 +70,7 @@ function App() {
         <Route path="/games/:id" element={<Game history={history} setHistory={setHistory} gameId={gameId} />} />
         <Route path="/login" element={<Login handleNav={handleNav} username={username} password={password} />}/>
         <Route path="/signup" element={<Signup handleNav={handleNav} setUsername={setUsername} setPassword={setPassword} />}/>
+        <Route path="/accounts/profile" element={<Profile games={games} setGames={setGames} setIsLoading={setIsLoading} handleGetGame={handleGetGame} handleCreateGame={handleCreateGame} />}/>
       </Routes>
     </>
   )
