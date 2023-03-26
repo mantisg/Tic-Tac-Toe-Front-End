@@ -13,8 +13,8 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(false)
   const [gameId, setGameId] = useState([])
   const [games, setGames] = useState([])
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
+  const [username, setUsername] = useState([])
+  const [password, setPassword] = useState([])
   const navigate = useNavigate()
 
     function handleCreateGame() {

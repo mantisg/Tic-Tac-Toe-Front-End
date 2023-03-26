@@ -1,106 +1,70 @@
 import {useState} from 'react'
 import { InputText } from 'primereact/inputtext';
 import {Password} from "primereact/password"
+import {useForm} from "react-hook-form"
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as Yup from 'yup'
 import "primereact/resources/themes/lara-light-indigo/theme.css"
 import "primereact/resources/primereact.min.css"
 import "primeicons/primeicons.css"
+import "../styles.css"
 
 export default function Signup({handleNav, setUsername, setPassword}) {
-	const [input, setInput] = useState({
-		username: '',
-		password: '',
-		confirmPassword: ''
+	const validationSchema = Yup.object().shape({
+		password: Yup.string()
+			.required("Password is required"),
+		confirmPassword: Yup.string()
+			.required("Password confirmation required")
+			.oneOf([Yup.ref('password'), "Passwords must match"])
 	})
 
-	const [error, setError] = useState({
-		username: '',
-		password: '',
-		confirmPassword: ''
+	const {register, handleSubmit, formState} = useForm({
+		resolver: yupResolver(validationSchema)
 	})
+	const {errors} = formState
 
-	function onInputChange(e) {
-		const {name, value} = e.target
-		setInput(prev => ({
-			...prev,
-			[name]: value
-		}))
-		validateInput(e)
+	function onSubmit(data) {
+		console.log("Success!\n\n" + JSON.stringify(data, null, 4))
+		return false
 	}
-
-	function validateInput(e) {
-		let {name, value} = e.target
-		setError(prev => {
-			const stateObj = {...prev, [name]: ""}
-
-			switch (name) {
-				case "password":
-					if (!value) {
-						stateObj[name] = "Please enter password."
-					} else if (input.confirmPassword && value !== input.confirmPassword) {
-						stateObj["confirmPassword"] = "Password does not match."
-					} else {
-						stateObj["confirmPassword"] = input.confirmPassword ? "" : error.confirmPassword
-					}
-					break
-				case "confirmPassword":
-					if (!value) {
-						stateObj[name] = "Please enter password."
-					} else if (input.password && value !== input.password) {
-						stateObj[name] = "Password does not match."
-					}
-					break
-			}
-			return stateObj
-		})
-	}
-
 	return(
 		<div>
 			<button onClick={() => handleNav('/')}>Back</button>
-			<div>
-				<h3>Choose a Username:</h3>
-				<InputText
-					name="username"
-					value={input.username}
-					placeholder="Username"
-					className="p-inputtext-lg"
-					onChange={onInputChange}
-					onBlur={validateInput}
-					//onSubmit={(e) => setUsername(e.target.value)}
-				/>
-			</div>
-			<div>
-				<h3>Choose a Password:</h3>
-				<Password
-					name="password"
-					value={input.password}
-					placeholder="Password"
-					className="p-inputtext-lg"
-					weakLabel="Do Better"
-					mediumLabel="Almost"
-					strongLabel="There We Go"
-					toggleMask={true}
-					strongRegex="^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9]).{8,}$"
-					onChange={onInputChange}
-					onBlur={validateInput}
-				/>
-				{error.password && <span>{error.password}</span>}
-			</div>
-			<div>
-				<h3>Confirm your Password:</h3>
-				<Password
-					name="confirmPassword"
-					value={input.confirmPassword}
-					placeholder="Confirm Password"
-					className="p-inputtext-lg"
-					feedback={false}
-					toggleMask={true}
-					onChange={onInputChange}
-					onBlur={validateInput}
-				/>
-				{error.confirmPassword && <span>{error.confirmPassword}</span>}
-			</div>
-			<button>Submit</button>
+			<form onSubmit={handleSubmit(onSubmit)}>
+				<div className="p-float-label signup-margins">
+					<InputText
+						name="username"
+						className="p-inputtext-lg"
+						//onSubmit={(e) => setUsername(e.target.value)}
+					/>
+					<label htmlFor="username">Username</label>
+				</div>
+				<div className="p-float-label signup-margins">
+					<Password
+						name="password"
+						type="password" {...register('password')}
+						className="p-inputtext-lg"
+						weakLabel="Do Better"
+						mediumLabel="Almost"
+						strongLabel="There We Go"
+						toggleMask={true}
+						strongRegex="^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9]).{8,}$"
+					/>
+					<label htmlFor="password">Password</label>
+				</div>
+				<div className="p-float-label signup-margins">
+					<Password
+						className="p-invalid"
+						name="confirmPassword"
+						type="password" {...register('confirmPassword')}
+						className="p-inputtext-lg"
+						feedback={false}
+						toggleMask={true}
+					/>
+					<label htmlFor="confirmPassword">Confirm Password</label>
+				</div>
+				<button type='submit'>Submit</button>
+			</form>
 		</div>
 	)
 }
