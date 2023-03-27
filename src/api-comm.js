@@ -16,6 +16,7 @@ export function createGame() {
 }
 
 export function getGame(id) {
+    console.log(id)
     return harness(`game/${id}`)
 }
 
