@@ -1,5 +1,6 @@
 import {useEffect} from 'react'
 import {deleteGame, getAllGames} from '../api-comm'
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import "../styles.css"
 
 export default function Profile({games, setGames, setIsLoading, handleGetGame, handleCreateGame}) {
@@ -18,11 +19,14 @@ export default function Profile({games, setGames, setIsLoading, handleGetGame, h
 
 	return (
 		<div>
-			<h1>User Profile</h1>
-			<div className="user-info">
-				<img src="https://placekitten.com/150/150"/>
-				<span>Name</span>
-				<div className="create-space"></div>
+			<div className='profile-top'>
+				<div className="user-info">
+					<img src="https://placekitten.com/150/150"/>
+					<span>Name</span>
+				</div>
+				<div className="add-friend">
+					<PersonAddAlt1Icon/>
+				</div>
 			</div>
 			<button className="newgame" onClick={handleCreateGame}>New Game</button>
 			<h2 className="game-title">Games</h2> 

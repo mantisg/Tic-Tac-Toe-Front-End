@@ -29,7 +29,6 @@ export default function Signup({handleNav, setUsername, setPassword}) {
 	}
 	return(
 		<div>
-			<button onClick={() => handleNav('/')}>Back</button>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<div className="p-float-label signup-margins">
 					<InputText

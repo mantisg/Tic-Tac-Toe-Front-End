@@ -22,17 +22,24 @@ a {
 }
 .homeflex {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
 }
 
-.home {
-  width: 300px;
+.homeflex svg {
+  height: 50px;
+  width: 50px;
+  cursor: pointer;
+}
+
+.back {
+  height: 30px;
+  width: 200px;
 }
 
 .top-btns {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: right;
 }
 
 .newgame {
@@ -83,12 +90,25 @@ a {
   margin-bottom: 30px;
 }
 
+.profile-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .user-info {
   display: flex;
   flex-direction: row;
 }
 
-.create-space {
-  display: flex;
-  flex: 8;
+.user-info span {
+  font-size: 30px;
+  font-weight: bold;
+  color: #10418f;
+}
+
+.add-friend svg {
+  color: #10418f;
+  height: 50px;
+  width: 50px;
 }

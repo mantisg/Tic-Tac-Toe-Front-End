@@ -1,5 +1,6 @@
 import {useState} from 'react'
 import { Routes, Route, useNavigate } from "react-router-dom"
+import CottageIcon from '@mui/icons-material/Cottage';
 import {createGame, getGame} from '../api-comm'
 import Game from './Game/Game'
 import Home from './Home'
@@ -43,19 +44,20 @@ function App() {
         return navigate(path)
     }
 
-    function handleClick() {
+    function handleClick(path) {
         setIsPlaying(false)
-        navigate('/')
+        handleNav(path)
     }
 
   return (
     <>
-      {isLoading && <p>loading...</p>}
-      {isPlaying && 
+      {isLoading && <p>loading...</p>} 
         <div className="homeflex">
-            <button className="home" onClick={handleClick}>Home</button>
+            <CottageIcon onClick={() => handleClick('/')} />
+            {isPlaying &&
+                <button className="back" onClick={() => handleClick('/accounts/profile')}>Back to Profile</button>
+            }
         </div>  
-      }
       <Routes>
         <Route path="/" element={
             <Home

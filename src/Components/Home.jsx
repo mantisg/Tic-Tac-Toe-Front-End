@@ -9,7 +9,6 @@ function Home({history, setHistory, gameId, setIsLoading, handleCreateGame, hand
 	return (
         <div>
 	        <div className="top-btns">
-	          <button className="newgame" onClick={handleCreateGame}>New Game</button>
 	          <div className="in-up">
 	          	<button className="login-btn" onClick={() => handleNav('/login')}>Login</button>
 	          	<a onClick={() => handleNav('/signup')}>Sign Up</a>
