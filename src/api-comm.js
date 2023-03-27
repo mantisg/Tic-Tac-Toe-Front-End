@@ -4,7 +4,6 @@ function harness(path, opts) {
         ...opts,
     })
     .then(response => response.json())
-    .then(({res}) => res)
     .catch(err => console.log(err))
 }
 
@@ -13,10 +12,7 @@ export function getAllGames() {
 }
 
 export function createGame() {
-    return harness("game",
-        {method: 'POST',
-        body: JSON.stringify({history: [Array(9).fill(0)]})}
-    )
+    return harness("games", {method: 'POST'})
 }
 
 export function getGame(id) {
