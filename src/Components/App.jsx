@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import { Routes, Route, useNavigate } from "react-router-dom"
 import CottageIcon from '@mui/icons-material/Cottage';
 import {createGame, getGame} from '../api-comm'
@@ -19,6 +19,14 @@ function App() {
   const [password, setPassword] = useState([])
   const navigate = useNavigate()
 
+  useEffect(() => {
+    // How to set history based on app-data
+    // TODO request localhost:5000/app-data
+    // .then(res => {
+    //      setHistory(res.history)
+    // })
+  }, [])
+
     function handleCreateGame() {
         return createGame()
         .then(res => {
@@ -31,6 +39,7 @@ function App() {
     }
 
     function handleGetGame(gameId) {
+        console.log(gameId)
         return getGame(gameId)
         .then(res => {
             setHistory(JSON.parse(res.history))
