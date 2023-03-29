@@ -7,6 +7,10 @@ function harness(path, opts) {
     .catch(err => console.log(err))
 }
 
+export function getAppData() {
+    harness('app-data')
+}
+
 export function getAllGames() {
     return harness('games')
 }

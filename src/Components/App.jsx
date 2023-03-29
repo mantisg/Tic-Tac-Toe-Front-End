@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react'
 import { Routes, Route, useNavigate } from "react-router-dom"
 import CottageIcon from '@mui/icons-material/Cottage';
-import {createGame, getGame} from '../api-comm'
+import {getAppData, createGame, getGame} from '../api-comm'
 import Game from './Game/Game'
 import Home from './Home'
 import Login from './Login'
@@ -10,22 +10,23 @@ import Profile from './Profile'
 import '../styles.css'
 
 function App() {
-  const [history, setHistory] = useState([Array(9).fill(0)])
-  const [isLoading, setIsLoading] = useState(true)
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [gameId, setGameId] = useState([])
-  const [games, setGames] = useState([])
-  const [username, setUsername] = useState([])
-  const [password, setPassword] = useState([])
-  const navigate = useNavigate()
+    const [history, setHistory] = useState([Array(9).fill(0)])
+    const [isLoading, setIsLoading] = useState(true)
+    const [isPlaying, setIsPlaying] = useState(false)
+    const [gameId, setGameId] = useState([])
+    const [games, setGames] = useState([])
+    const [username, setUsername] = useState([])
+    const [password, setPassword] = useState([])
+    const navigate = useNavigate()
 
-  useEffect(() => {
+    useEffect(() => {
     // How to set history based on app-data
     // TODO request localhost:5000/app-data
-    // .then(res => {
-    //      setHistory(res.history)
-    // })
-  }, [])
+        getAppData()
+        .then(res => {
+            setHistory(res.history)
+        })
+    }, [])
 
     function handleCreateGame() {
         return createGame()
