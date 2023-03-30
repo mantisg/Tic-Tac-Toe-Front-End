@@ -1,11 +1,9 @@
-import {useEffect, useState} from 'react'
+import {useEffect} from 'react'
 import {deleteGame, getAllGames} from '../api-comm'
 import Game from './Game/Game.jsx'
 import "../styles.css"
 
 function Home({history, setHistory, gameId, setIsLoading, handleCreateGame, handleNav}) {
-	setIsLoading(false)
-
 	return (
         <div>
 	        <div className="top-btns">

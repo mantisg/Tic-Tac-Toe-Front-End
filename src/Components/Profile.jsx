@@ -5,12 +5,12 @@ import "../styles.css"
 
 export default function Profile({games, setGames, setIsLoading, handleGetGame, handleCreateGame}) {
 	useEffect(() => {
-		getAllGames()
-    	.then(res => {
-      		setGames(res)
-      		setIsLoading(false)
-    	})
-  	}, [setGames, setIsLoading])
+        getAllGames()
+        .then(res => {
+            setGames(res)
+            setIsLoading(false)
+        })
+    }, [setGames, setIsLoading])
 
 	function handleDeleteGame(gameId) {
   		return deleteGame(gameId)

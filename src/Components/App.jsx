@@ -10,23 +10,67 @@ import Profile from './Profile'
 import '../styles.css'
 
 function App() {
-    const [history, setHistory] = useState([Array(9).fill(0)])
+    const [appData, setAppData] = useState(null)
+    const [history, setHistory] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [isPlaying, setIsPlaying] = useState(false)
     const [gameId, setGameId] = useState([])
     const [games, setGames] = useState([])
-    const [username, setUsername] = useState([])
-    const [password, setPassword] = useState([])
-    const navigate = useNavigate()
+    const [password, setPassword] = useState("")
+    const [username, setUsername] = useState("")
 
     useEffect(() => {
-    // How to set history based on app-data
-    // TODO request localhost:5000/app-data
         getAppData()
         .then(res => {
-            setHistory(res.history)
+            setAppData(res)
         })
     }, [])
+
+    return (
+        <>
+            {isLoading 
+            ? (<p>loading...</p>)
+            : (<>
+                <AppRender
+                    history={history}
+                    setHistory={setHistory}
+                    isPlaying={isPlaying}
+                    setIsPlaying={setIsPlaying}
+                    gameId={gameId}
+                    setGameId={setGameId}
+                    games={games}
+                    setGames={setGames}
+                    setIsLoading={setIsLoading}
+                    username={username}
+                    password={password}
+                    setPassword={setPassword}
+                    setUsername={setUsername}
+                    appData={appData}
+                />
+            </>)}
+        </>
+    )
+}
+
+export default App
+
+function AppRender(
+    history,
+    setHistory,
+    isPlaying,
+    setIsPlaying,
+    gameId,
+    setGameId,
+    games,
+    setGames,
+    setIsLoading,
+    username,
+    password,
+    setUsername,
+    setPassword,
+    appData
+) {
+    const navigate = useNavigate()
 
     function handleCreateGame() {
         return createGame()
@@ -59,33 +103,58 @@ function App() {
         handleNav(path)
     }
 
-  return (
-    <>
-      {isLoading && <p>loading...</p>} 
-        <div className="homeflex">
-            <CottageIcon onClick={() => handleClick('/')} />
-            {isPlaying &&
-                <button className="back" onClick={() => handleClick('/accounts/profile')}>Back to Profile</button>
-            }
-        </div>  
-      <Routes>
-        <Route path="/" element={
-            <Home
-                history={history}
-                setHistory={setHistory}
-                gameId={gameId}
-                setIsLoading={setIsLoading}
-                handleCreateGame={handleCreateGame}
-                handleNav={handleNav}
-            />}
-        />
-        <Route path="/games/:id" element={<Game history={history} setHistory={setHistory} gameId={gameId} />} />
-        <Route path="/login" element={<Login handleNav={handleNav} username={username} password={password} />}/>
-        <Route path="/signup" element={<Signup handleNav={handleNav} setUsername={setUsername} setPassword={setPassword} />}/>
-        <Route path="/accounts/profile" element={<Profile games={games} setGames={setGames} setIsLoading={setIsLoading} handleGetGame={handleGetGame} handleCreateGame={handleCreateGame} />}/>
-      </Routes>
-    </>
-  )
-}
+    console.log(appData)
 
-export default App
+    return (
+        <>
+            <div className="homeflex">
+                <CottageIcon onClick={() => handleClick('/')} />
+                {isPlaying &&
+                    <button className="back" onClick={() => handleClick('/accounts/profile')}>Back to Profile</button>
+                }
+            </div>
+            <Routes>
+                <Route path="/" element={
+                    <Home
+                        history={history}
+                        setHistory={setHistory}
+                        gameId={gameId}
+                        setIsLoading={setIsLoading}
+                        handleCreateGame={handleCreateGame}
+                        handleNav={handleNav}
+                    />}
+                />
+                <Route path="/games/:id" element={
+                    <Game
+                        history={history}
+                        setHistory={setHistory}
+                        gameId={gameId}
+                    />}
+                />
+                <Route path="/login" element={
+                    <Login
+                        handleNav={handleNav}
+                        username={username}
+                        password={password}
+                    />}
+                />
+                <Route path="/signup" element={
+                    <Signup
+                        handleNav={handleNav}
+                        setUsername={setUsername}
+                        setPassword={setPassword}
+                    />}
+                />
+                <Route path="/accounts/profile" element={
+                    <Profile
+                        games={games}
+                        setGames={setGames}
+                        setIsLoading={setIsLoading}
+                        handleGetGame={handleGetGame}
+                        handleCreateGame={handleCreateGame}
+                    />}
+                />
+            </Routes>
+        </>
+    )   
+}

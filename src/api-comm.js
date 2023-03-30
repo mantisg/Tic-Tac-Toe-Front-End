@@ -3,12 +3,12 @@ function harness(path, opts) {
         headers: {'Content-Type': 'application/json'},
         ...opts,
     })
-    .then(response => response.json())
+    .then(res => res.json())
     .catch(err => console.log(err))
 }
 
 export function getAppData() {
-    harness('app-data')
+    return harness('app-data')
 }
 
 export function getAllGames() {
