@@ -50,7 +50,7 @@ export default App
 function AppRender({appData, setAppData, history, setHistory, players, setPlayers, isLoading, setIsLoading}) {
     const [isPlaying, setIsPlaying] = useState(false)
     const [gameId, setGameId] = useState([appData.id])
-    const [games, setGames] = useState([appData.games])
+    const [games, setGames] = useState([])
     const [password, setPassword] = useState(appData.password)
     const [username, setUsername] = useState(appData.username)
     const navigate = useNavigate()
@@ -58,9 +58,6 @@ function AppRender({appData, setAppData, history, setHistory, players, setPlayer
     function handleCreateGame() {
         return createGame()
         .then(res => {
-            setGames([...games, res])
-            setGameId(res.id)
-            setHistory(res.history)
             setIsPlaying(true)
             navigate(`/games/${res.id}`)
         })
@@ -88,7 +85,7 @@ function AppRender({appData, setAppData, history, setHistory, players, setPlayer
     return (
         <>
             <div className="homeflex">
-                <CottageIcon onClick={() => handleClick('/')} />
+                <CottageIcon onClick={handleCreateGame} />
                 {isPlaying &&
                     <button className="back" onClick={() => handleClick('/accounts/profile')}>Back to Profile</button>
                 }
