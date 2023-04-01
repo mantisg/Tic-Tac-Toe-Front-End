@@ -66,8 +66,6 @@ function AppRender({appData, setAppData, history, setHistory, players, setPlayer
     function handleGetGame(gameId) {
         return getGame(gameId)
         .then(res => {
-            setHistory(JSON.parse(res.history))
-            setGameId(gameId)
             setIsPlaying(true)
             navigate(`/games/${gameId}`)
         })
@@ -85,7 +83,7 @@ function AppRender({appData, setAppData, history, setHistory, players, setPlayer
     return (
         <>
             <div className="homeflex">
-                <CottageIcon onClick={handleCreateGame} />
+                <CottageIcon onClick={() => handleNav('/')} />
                 {isPlaying &&
                     <button className="back" onClick={() => handleClick('/accounts/profile')}>Back to Profile</button>
                 }
