@@ -11,18 +11,17 @@ import '../styles.css'
 
 function App() {
     const [appData, setAppData] = useState(null)
-    const [history, setHistory] = useState([])
+    const [history, setHistory] = useState(null)
+    const [players, setPlayers] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
-    const [isPlaying, setIsPlaying] = useState(false)
-    const [gameId, setGameId] = useState([])
-    const [games, setGames] = useState([])
-    const [password, setPassword] = useState("")
-    const [username, setUsername] = useState("")
 
     useEffect(() => {
         getAppData()
         .then(res => {
-            setAppData(res)
+            setAppData(res.content)
+            setHistory(res.history)
+            setPlayers(res.players)
+            setIsLoading(false)
         })
     }, [])
 
@@ -32,20 +31,14 @@ function App() {
             ? (<p>loading...</p>)
             : (<>
                 <AppRender
+                    appData={appData}
+                    setAppData={setAppData}
                     history={history}
                     setHistory={setHistory}
-                    isPlaying={isPlaying}
-                    setIsPlaying={setIsPlaying}
-                    gameId={gameId}
-                    setGameId={setGameId}
-                    games={games}
-                    setGames={setGames}
+                    players={players}
+                    setPlayers={setPlayers}
+                    isLoading={isLoading}
                     setIsLoading={setIsLoading}
-                    username={username}
-                    password={password}
-                    setPassword={setPassword}
-                    setUsername={setUsername}
-                    appData={appData}
                 />
             </>)}
         </>
@@ -54,22 +47,12 @@ function App() {
 
 export default App
 
-function AppRender(
-    history,
-    setHistory,
-    isPlaying,
-    setIsPlaying,
-    gameId,
-    setGameId,
-    games,
-    setGames,
-    setIsLoading,
-    username,
-    password,
-    setUsername,
-    setPassword,
-    appData
-) {
+function AppRender({appData, setAppData, history, setHistory, players, setPlayers, isLoading, setIsLoading}) {
+    const [isPlaying, setIsPlaying] = useState(false)
+    const [gameId, setGameId] = useState([appData.id])
+    const [games, setGames] = useState([appData.games])
+    const [password, setPassword] = useState(appData.password)
+    const [username, setUsername] = useState(appData.username)
     const navigate = useNavigate()
 
     function handleCreateGame() {
@@ -102,8 +85,6 @@ function AppRender(
         setIsPlaying(false)
         handleNav(path)
     }
-
-    console.log(appData)
 
     return (
         <>

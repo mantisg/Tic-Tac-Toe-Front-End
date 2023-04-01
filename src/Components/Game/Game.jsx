@@ -19,7 +19,7 @@ function Game({history, setHistory, gameId}) {
   }
 
   function resetGame() {
-    setHistory([])
+    setHistory(null)
     setCurrentMove(0)
   }
 
