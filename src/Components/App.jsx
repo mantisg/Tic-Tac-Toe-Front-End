@@ -11,7 +11,7 @@ import '../styles.css'
 
 function App() {
     const [appData, setAppData] = useState(null)
-    const [history, setHistory] = useState(null)
+    const [history, setHistory] = useState([])
     const [players, setPlayers] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
 
@@ -67,7 +67,6 @@ function AppRender({appData, setAppData, history, setHistory, players, setPlayer
     }
 
     function handleGetGame(gameId) {
-        console.log(gameId)
         return getGame(gameId)
         .then(res => {
             setHistory(JSON.parse(res.history))
