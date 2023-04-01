@@ -8,7 +8,7 @@ function harness(path, opts) {
 }
 
 export function getAppData() {
-    return harness('app-data')
+    return harness('core')
 }
 
 export function getAllGames() {
