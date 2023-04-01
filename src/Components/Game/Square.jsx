@@ -4,7 +4,7 @@ export default function Square({value, onSquareClick}) {
       className="square"
       onClick={onSquareClick}
     >
-      {["X", "O"].includes(value) ? value : null}
+      {value}
     </button>
   )
 }

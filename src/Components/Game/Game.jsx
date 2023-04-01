@@ -8,9 +8,9 @@ function Game({history, setHistory, gameId}) {
   const xIsNext = currentMove % 2 === 0
   const currentSquares = history[currentMove]
 
-  useEffect(() => {
+  /*useEffect(() => {
     updateHistory(gameId, history)
-  }, [gameId, history])
+  }, [gameId, history])*/
 
   function handlePlay(nextSquares) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares]
@@ -19,7 +19,7 @@ function Game({history, setHistory, gameId}) {
   }
 
   function resetGame() {
-    setHistory([Array(9).fill(0)])
+    setHistory(null)
     setCurrentMove(0)
   }
 

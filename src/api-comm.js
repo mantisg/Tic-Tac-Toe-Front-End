@@ -3,9 +3,12 @@ function harness(path, opts) {
         headers: {'Content-Type': 'application/json'},
         ...opts,
     })
-    .then(response => response.json())
-    .then(({res}) => res)
+    .then(res => res.json())
     .catch(err => console.log(err))
+}
+
+export function getAppData() {
+    return harness('app-data')
 }
 
 export function getAllGames() {
@@ -13,13 +16,11 @@ export function getAllGames() {
 }
 
 export function createGame() {
-    return harness("game",
-        {method: 'POST',
-        body: JSON.stringify({history: [Array(9).fill(0)]})}
-    )
+    return harness("games", {method: 'POST'})
 }
 
 export function getGame(id) {
+    console.log(id)
     return harness(`game/${id}`)
 }
 
