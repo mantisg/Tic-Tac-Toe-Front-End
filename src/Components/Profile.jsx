@@ -10,11 +10,12 @@ export default function Profile({games, setGames, setIsLoading, handleGetGame, h
             setGames(res)
             setIsLoading(false)
         })
-    }, [setGames, setIsLoading])
+    }, [setGames, handleDeleteGame])
 
 	function handleDeleteGame(gameId) {
-  		return deleteGame(gameId)
-  		.then(res => setGames(res))
+  		return (
+  			deleteGame(gameId)
+  		)
   	}
 
 	return (
