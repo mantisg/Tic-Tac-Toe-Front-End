@@ -26,7 +26,7 @@ export function getGame(id) {
 
 export function deleteGame(id) {
     return harness(`game/${id}`,
-        {method: 'DELETE'}
+        {method: 'DELETE'},
     )
 }
 
