@@ -31,7 +31,7 @@ export default function Profile({games, setGames, setIsLoading, handleGetGame, h
 			<h2 className="game-title">Games</h2> 
 	        <ul className="game-list">
 	        	{games.length > 0 && games.map(g => (<li className="game-link" key={g.id}>
-	          		<p>{g.timestamp}</p>
+	          		<p>{g.create_time}</p>
 	          		<button onClick={() => handleGetGame(g.id)}>View</button>
 	          		<button className="delete" onClick={() => handleDeleteGame(g.id)}>Delete Game</button>
 	        	</li>))}
