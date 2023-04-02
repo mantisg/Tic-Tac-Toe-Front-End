@@ -13,9 +13,7 @@ export default function Profile({games, setGames, setIsLoading, handleGetGame, h
     }, [setGames, handleDeleteGame])
 
 	function handleDeleteGame(gameId) {
-  		return (
-  			deleteGame(gameId)
-  		)
+  		return deleteGame(gameId)
   	}
 
 	return (
