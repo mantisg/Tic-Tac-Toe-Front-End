@@ -11,19 +11,17 @@ import '../styles.css'
 
 function App() {
     const [appData, setAppData] = useState(null)
-    const [history, setHistory] = useState([])
+    const [history, setHistory] = useState([Array(9).fill(null)])
     const [players, setPlayers] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         getAppData()
         .then(res => {
-            setAppData(res.content)
             setHistory(res.history)
-            setPlayers(res.players)
             setIsLoading(false)
         })
-    }, [])
+    })
 
     return (
         <>
@@ -32,7 +30,6 @@ function App() {
             : (<>
                 <AppRender
                     appData={appData}
-                    setAppData={setAppData}
                     history={history}
                     setHistory={setHistory}
                     players={players}
@@ -47,12 +44,10 @@ function App() {
 
 export default App
 
-function AppRender({appData, setAppData, history, setHistory, players, setPlayers, isLoading, setIsLoading}) {
+function AppRender({appData, history, setHistory, players, setPlayers, isLoading, setIsLoading}) {
     const [isPlaying, setIsPlaying] = useState(false)
-    const [gameId, setGameId] = useState([appData.id])
+    const [gameId, setGameId] = useState(1)
     const [games, setGames] = useState([])
-    const [password, setPassword] = useState(appData.password)
-    const [username, setUsername] = useState(appData.username)
     const navigate = useNavigate()
 
     function handleCreateGame() {
@@ -94,8 +89,9 @@ function AppRender({appData, setAppData, history, setHistory, players, setPlayer
                         history={history}
                         setHistory={setHistory}
                         gameId={gameId}
+                        setGameId={setGameId}
+                        isLoading={isLoading}
                         setIsLoading={setIsLoading}
-                        handleCreateGame={handleCreateGame}
                         handleNav={handleNav}
                     />}
                 />
@@ -109,21 +105,18 @@ function AppRender({appData, setAppData, history, setHistory, players, setPlayer
                 <Route path="/login" element={
                     <Login
                         handleNav={handleNav}
-                        username={username}
-                        password={password}
                     />}
                 />
                 <Route path="/signup" element={
                     <Signup
                         handleNav={handleNav}
-                        setUsername={setUsername}
-                        setPassword={setPassword}
                     />}
                 />
                 <Route path="/accounts/profile" element={
                     <Profile
                         games={games}
                         setGames={setGames}
+                        isLoading={isLoading}
                         setIsLoading={setIsLoading}
                         handleGetGame={handleGetGame}
                         handleCreateGame={handleCreateGame}

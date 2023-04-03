@@ -1,9 +1,11 @@
 import {useEffect} from 'react'
-import {deleteGame, getAllGames} from '../api-comm'
+import {deleteGame, getGame, getAllGames} from '../api-comm'
 import Game from './Game/Game.jsx'
 import "../styles.css"
 
-function Home({history, setHistory, gameId, setIsLoading, handleCreateGame, handleNav}) {
+function Home({history, setHistory, gameId, setGameId, isLoading, setIsLoading, handleNav}) {
+	useEffect(() => {getGame(1)}, [])
+
 	return (
         <div>
 	        <div className="top-btns">
@@ -14,7 +16,7 @@ function Home({history, setHistory, gameId, setIsLoading, handleCreateGame, hand
 	          </div>
 	        </div>
 	        <div>
-				<Game history={history} setHistory={setHistory} gameId={gameId} />
+	        	{isLoading ? <p>loading...</p> : <Game history={history} setHistory={setHistory} gameId={gameId} />}
 	        </div>
         </div>
 	)

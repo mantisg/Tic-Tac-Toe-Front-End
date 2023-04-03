@@ -20,7 +20,6 @@ export function createGame() {
 }
 
 export function getGame(id) {
-    console.log(id)
     return harness(`game/${id}`)
 }
 
@@ -33,6 +32,6 @@ export function deleteGame(id) {
 export function updateHistory(id, history) {
     return harness(`game/${id}`,
       {method: "PUT",
-      body: JSON.stringify({history: JSON.stringify(history)})}
+      body: JSON.stringify({history})}
     )
 }

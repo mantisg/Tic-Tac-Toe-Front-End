@@ -5,12 +5,14 @@ import './game.css'
 
 function Game({history, setHistory, gameId}) {
   const [currentMove, setCurrentMove] = useState(history.length - 1)
+  const [isLoading, setIsLoading] = useState(true)
   const xIsNext = currentMove % 2 === 0
   const currentSquares = history[currentMove]
 
-  /*useEffect(() => {
+  useEffect(() => {
     updateHistory(gameId, history)
-  }, [gameId, history])*/
+    .then(() => setIsLoading(false))
+  }, [history])
 
   function handlePlay(nextSquares) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares]
@@ -19,7 +21,7 @@ function Game({history, setHistory, gameId}) {
   }
 
   function resetGame() {
-    setHistory([])
+    setHistory([Array(9).fill(null)])
     setCurrentMove(0)
   }
 
@@ -42,16 +44,23 @@ function Game({history, setHistory, gameId}) {
       </li>
     )
   })
+
   return (
-    <div className="game">
-      <div className="game-board">
-        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
-      </div>
-      <div className="game-info">
-        <button onClick={resetGame}>Reset Game</button>
-        <ol>{moves}</ol>
-      </div>
-    </div>
+    <>
+      {isLoading
+      ? (<p>loading...</p>)
+      : (
+        <div className="game">
+          <div className="game-board">
+            <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+          </div>
+          <div className="game-info">
+            <button onClick={resetGame}>Reset Game</button>
+            <ol>{moves}</ol>
+          </div>
+        </div>
+      )}
+    </>
   )
 }
 
