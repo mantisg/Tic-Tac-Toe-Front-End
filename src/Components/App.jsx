@@ -21,7 +21,7 @@ function App() {
             setHistory(res.history)
             setIsLoading(false)
         })
-    })
+    }, [])
 
     return (
         <>
@@ -53,6 +53,8 @@ function AppRender({appData, history, setHistory, players, setPlayers, isLoading
     function handleCreateGame() {
         return createGame()
         .then(res => {
+            setGameId(res.id)
+            setHistory(res.history)
             setIsPlaying(true)
             navigate(`/games/${res.id}`)
         })
@@ -61,6 +63,8 @@ function AppRender({appData, history, setHistory, players, setPlayers, isLoading
     function handleGetGame(gameId) {
         return getGame(gameId)
         .then(res => {
+            setGameId(res.id)
+            setHistory(res.history)
             setIsPlaying(true)
             navigate(`/games/${gameId}`)
         })

@@ -4,7 +4,13 @@ import Game from './Game/Game.jsx'
 import "../styles.css"
 
 function Home({history, setHistory, gameId, setGameId, isLoading, setIsLoading, handleNav}) {
-	useEffect(() => {getGame(1)}, [])
+	useEffect(() => {
+		getGame(1)
+		.then(res => {
+			setHistory(res.history)
+			setGameId(res.id)
+		})
+	}, [])
 
 	return (
         <div>
