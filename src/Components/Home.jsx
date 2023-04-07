@@ -1,17 +1,9 @@
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 import {deleteGame, getGame, getAllGames} from '../api-comm'
 import Game from './Game/Game.jsx'
 import "../styles.css"
 
-function Home({history, setHistory, gameId, setGameId, isLoading, setIsLoading, handleNav}) {
-	useEffect(() => {
-		getGame(1)
-		.then(res => {
-			setHistory(res.history)
-			setGameId(res.id)
-		})
-	}, [])
-
+function Home({history, setHistory, gameId, setGameId, isLoading, handleNav}) {
 	return (
         <div>
 	        <div className="top-btns">
