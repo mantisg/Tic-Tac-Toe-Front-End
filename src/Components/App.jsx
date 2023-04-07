@@ -10,10 +10,14 @@ import Profile from './Profile'
 import '../styles.css'
 
 function App() {
+    const navigate = useNavigate()
+    const [isLoading, setIsLoading] = useState(true)
+    const [isPlaying, setIsPlaying] = useState(false)
+    const [gameId, setGameId] = useState(1)
+    const [games, setGames] = useState([])
     const [appData, setAppData] = useState(null)
     const [history, setHistory] = useState([Array(9).fill(null)])
     const [players, setPlayers] = useState(null)
-    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         getAppData()
@@ -22,33 +26,6 @@ function App() {
             setIsLoading(false)
         })
     }, [])
-
-    return (
-        <>
-            {isLoading 
-            ? (<p>loading...</p>)
-            : (<>
-                <AppRender
-                    appData={appData}
-                    history={history}
-                    setHistory={setHistory}
-                    players={players}
-                    setPlayers={setPlayers}
-                    isLoading={isLoading}
-                    setIsLoading={setIsLoading}
-                />
-            </>)}
-        </>
-    )
-}
-
-export default App
-
-function AppRender({appData, history, setHistory, players, setPlayers, isLoading, setIsLoading}) {
-    const [isPlaying, setIsPlaying] = useState(false)
-    const [gameId, setGameId] = useState(1)
-    const [games, setGames] = useState([])
-    const navigate = useNavigate()
 
     function handleCreateGame() {
         return createGame()
@@ -81,52 +58,59 @@ function AppRender({appData, history, setHistory, players, setPlayers, isLoading
 
     return (
         <>
-            <div className="homeflex">
-                <CottageIcon onClick={() => handleNav('/')} />
-                {isPlaying &&
-                    <button className="back" onClick={() => handleClick('/accounts/profile')}>Back to Profile</button>
-                }
-            </div>
-            <Routes>
-                <Route path="/" element={
-                    <Home
-                        history={history}
-                        setHistory={setHistory}
-                        gameId={gameId}
-                        setGameId={setGameId}
-                        isLoading={isLoading}
-                        setIsLoading={setIsLoading}
-                        handleNav={handleNav}
-                    />}
-                />
-                <Route path="/games/:id" element={
-                    <Game
-                        history={history}
-                        setHistory={setHistory}
-                        gameId={gameId}
-                    />}
-                />
-                <Route path="/login" element={
-                    <Login
-                        handleNav={handleNav}
-                    />}
-                />
-                <Route path="/signup" element={
-                    <Signup
-                        handleNav={handleNav}
-                    />}
-                />
-                <Route path="/accounts/profile" element={
-                    <Profile
-                        games={games}
-                        setGames={setGames}
-                        isLoading={isLoading}
-                        setIsLoading={setIsLoading}
-                        handleGetGame={handleGetGame}
-                        handleCreateGame={handleCreateGame}
-                    />}
-                />
-            </Routes>
+            {isLoading
+            ? (<p>loading...</p>)
+            : (<>
+                <div className="homeflex">
+                    <CottageIcon onClick={() => handleNav('/')} />
+                    {isPlaying &&
+                        <button className="back" onClick={() => handleClick('/accounts/profile')}>Back to Profile</button>
+                    }
+                </div>
+                <Routes>
+                    <Route path="/" element={
+                        <Home
+                            history={history}
+                            setHistory={setHistory}
+                            gameId={gameId}
+                            setGameId={setGameId}
+                            isLoading={isLoading}
+                            setIsLoading={setIsLoading}
+                            handleNav={handleNav}
+                        />}
+                    />
+                    <Route path="/games/:id" element={
+                        <Game
+                            history={history}
+                            setHistory={setHistory}
+                            gameId={gameId}
+                        />}
+                    />
+                    <Route path="/login" element={
+                        <Login
+                            handleNav={handleNav}
+                        />}
+                    />
+                    <Route path="/signup" element={
+                        <Signup
+                            handleNav={handleNav}
+                        />}
+                    />
+                    <Route path="/accounts/profile" element={
+                        <Profile
+                            games={games}
+                            setGames={setGames}
+                            isLoading={isLoading}
+                            setIsLoading={setIsLoading}
+                            handleGetGame={handleGetGame}
+                            handleCreateGame={handleCreateGame}
+                        />}
+                    />
+                </Routes>
+            </>)
+            }
         </>
     )   
 }
+
+export default App
