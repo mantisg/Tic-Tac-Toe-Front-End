@@ -5,14 +5,12 @@ import './game.css'
 
 function Game({history, setHistory, gameId}) {
   const [currentMove, setCurrentMove] = useState(history.length - 1)
-  const [isLoading, setIsLoading] = useState(true)
   const xIsNext = currentMove % 2 === 0
   const currentSquares = history[currentMove]
 
   useEffect(() => {
     updateHistory(gameId, history)
-    .then(() => setIsLoading(false))
-  }, [history])
+  })
 
   function handlePlay(nextSquares) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares]
@@ -47,10 +45,7 @@ function Game({history, setHistory, gameId}) {
 
   return (
     <>
-      {isLoading
-      ? (<p>loading...</p>)
-      : (
-        <div className="game">
+      <div className="game">
           <div className="game-board">
             <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
           </div>
@@ -59,7 +54,6 @@ function Game({history, setHistory, gameId}) {
             <ol>{moves}</ol>
           </div>
         </div>
-      )}
     </>
   )
 }

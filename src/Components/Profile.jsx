@@ -3,7 +3,7 @@ import {deleteGame, getAllGames} from '../api-comm'
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import "../styles.css"
 
-export default function Profile({games, setGames, isLoading, setIsLoading, handleGetGame, handleCreateGame}) {
+export default function Profile({games, setGames, isLoading, setIsLoading, handleGetGame, handleCreateGame, handleDeleteGame}) {
 	useEffect(() => {
         getAllGames()
         .then(res => {
@@ -13,10 +13,6 @@ export default function Profile({games, setGames, isLoading, setIsLoading, handl
     }, [handleDeleteGame])
 
     const gameList = games.slice(1)
-
-	function handleDeleteGame(gameId) {
-  		return deleteGame(gameId)
-  	}
 
 	return (
 		<div>
