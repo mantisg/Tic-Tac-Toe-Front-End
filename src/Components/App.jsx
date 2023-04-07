@@ -72,7 +72,7 @@ export default function App() {
             ? (<p>loading...</p>)
             : (<>
                 <div className="homeflex">
-                    <CottageIcon onClick={() => handleNav('/')} />
+                    <CottageIcon onClick={() => handleClick('/')} />
                     {isPlaying &&
                         <button className="back" onClick={() => handleClick('/accounts/profile')}>Back to Profile</button>
                     }
@@ -117,7 +117,8 @@ export default function App() {
                         />}
                     />
                 </Routes>
-            </>
+            </>)
+            }
         </>
-    )
+    )   
 }
