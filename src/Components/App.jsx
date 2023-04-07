@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react'
 import { Routes, Route, useNavigate } from "react-router-dom"
 import CottageIcon from '@mui/icons-material/Cottage';
-import {getAppData, createGame, getGame} from '../api-comm'
+import {getAppData, createGame, getGame, getAllGames, deleteGame} from '../api-comm'
 import Game from './Game/Game'
 import Home from './Home'
 import Login from './Login'
@@ -9,20 +9,20 @@ import Signup from './Signup'
 import Profile from './Profile'
 import '../styles.css'
 
-function App() {
-    const navigate = useNavigate()
+export default function App() {
+    const [history, setHistory] = useState([])
+    const [gameId, setGameId] = useState([])
+    const [games, setGames] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [isPlaying, setIsPlaying] = useState(false)
-    const [gameId, setGameId] = useState(1)
-    const [games, setGames] = useState([])
-    const [appData, setAppData] = useState(null)
-    const [history, setHistory] = useState([Array(9).fill(null)])
-    const [players, setPlayers] = useState(null)
+    const navigate = useNavigate()
 
     useEffect(() => {
-        getAppData()
+        getAllGames()
+        getGame(1)
         .then(res => {
-            setHistory(res.history)
+            setHistory(JSON.parse(res.history))
+            setGameId(res.id)
             setIsLoading(false)
         })
     }, [])
@@ -31,28 +31,38 @@ function App() {
         return createGame()
         .then(res => {
             setGameId(res.id)
-            setHistory(res.history)
+            setHistory(JSON.parse(res.history))
             setIsPlaying(true)
-            navigate(`/games/${res.id}`)
+            navigate(`/game/${res.id}`)
         })
     }
 
-    function handleGetGame(gameId) {
-        return getGame(gameId)
+    function handleGetGame(id) {
+        return getGame(id)
         .then(res => {
+            setHistory(JSON.parse(res.history))
             setGameId(res.id)
-            setHistory(res.history)
             setIsPlaying(true)
-            navigate(`/games/${gameId}`)
+            navigate(`/game/${id}`)
         })
+    }
+
+    function handleDeleteGame(id) {
+        deleteGame(id)
     }
 
     function handleNav(path) {
-        return navigate(path)
+        navigate(path)
     }
 
     function handleClick(path) {
-        setIsPlaying(false)
+        getGame(1)
+        .then(res => {
+            setHistory(JSON.parse(res.history))
+            setGameId(res.id)
+            setIsPlaying(false)
+            setIsLoading(false)
+        })
         handleNav(path)
     }
 
@@ -70,47 +80,44 @@ function App() {
                 <Routes>
                     <Route path="/" element={
                         <Home
+                            handleNav={handleNav}
                             history={history}
                             setHistory={setHistory}
                             gameId={gameId}
                             setGameId={setGameId}
                             isLoading={isLoading}
-                            setIsLoading={setIsLoading}
-                            handleNav={handleNav}
                         />}
                     />
-                    <Route path="/games/:id" element={
+                    <Route path='/game/:id' element={
                         <Game
                             history={history}
                             setHistory={setHistory}
-                            gameId={gameId}
+                            gameId={gameId} 
                         />}
                     />
-                    <Route path="/login" element={
+                    <Route path='/login' element={
                         <Login
-                            handleNav={handleNav}
+                            handleNav={handleNav} 
                         />}
                     />
-                    <Route path="/signup" element={
+                    <Route path='/signup' element={
                         <Signup
-                            handleNav={handleNav}
+                            handleNav={handleNav} 
                         />}
                     />
-                    <Route path="/accounts/profile" element={
+                    <Route path='/accounts/profile' element={
                         <Profile
                             games={games}
                             setGames={setGames}
                             isLoading={isLoading}
                             setIsLoading={setIsLoading}
-                            handleGetGame={handleGetGame}
                             handleCreateGame={handleCreateGame}
+                            handleGetGame={handleGetGame}
+                            handleDeleteGame={handleDeleteGame}
                         />}
                     />
                 </Routes>
-            </>)
-            }
+            </>
         </>
-    )   
+    )
 }
-
-export default App
