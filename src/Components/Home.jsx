@@ -3,6 +3,7 @@ import {deleteGame, getGame, getAllGames} from '../api-comm'
 import Game from './Game/Game.jsx'
 import "../styles.css"
 
+
 function Home({history, setHistory, gameId, setGameId, isLoading, handleNav}) {
 	return (
         <div>
