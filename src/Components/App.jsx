@@ -68,52 +68,56 @@ export default function App() {
 
     return (
         <>
-            <div className="homeflex">
-                <CottageIcon onClick={() => handleClick('/')} />
-                {isPlaying &&
-                    <button className="back" onClick={() => handleClick('/accounts/profile')}>Back to Profile</button>
-                }
-            </div>
-            <Routes>
-                <Route path="/" element={
-                    <Home
-                        handleNav={handleNav}
-                        history={history}
-                        setHistory={setHistory}
-                        gameId={gameId}
-                        setGameId={setGameId}
-                        isLoading={isLoading}
-                    />}
-                />
-                <Route path='/game/:id' element={
-                    <Game
-                        history={history}
-                        setHistory={setHistory}
-                        gameId={gameId} 
-                    />}
-                />
-                <Route path='/login' element={
-                    <Login
-                        handleNav={handleNav} 
-                    />}
-                />
-                <Route path='/signup' element={
-                    <Signup
-                        handleNav={handleNav} 
-                    />}
-                />
-                <Route path='/accounts/profile' element={
-                    <Profile
-                        games={games}
-                        setGames={setGames}
-                        isLoading={isLoading}
-                        setIsLoading={setIsLoading}
-                        handleCreateGame={handleCreateGame}
-                        handleGetGame={handleGetGame}
-                        handleDeleteGame={handleDeleteGame}
-                    />}
-                />
-            </Routes>
+            {isLoading
+            ? (<p>loading...</p>)
+            : (<>
+                <div className="homeflex">
+                    <CottageIcon onClick={() => handleNav('/')} />
+                    {isPlaying &&
+                        <button className="back" onClick={() => handleClick('/accounts/profile')}>Back to Profile</button>
+                    }
+                </div>
+                <Routes>
+                    <Route path="/" element={
+                        <Home
+                            handleNav={handleNav}
+                            history={history}
+                            setHistory={setHistory}
+                            gameId={gameId}
+                            setGameId={setGameId}
+                            isLoading={isLoading}
+                        />}
+                    />
+                    <Route path='/game/:id' element={
+                        <Game
+                            history={history}
+                            setHistory={setHistory}
+                            gameId={gameId} 
+                        />}
+                    />
+                    <Route path='/login' element={
+                        <Login
+                            handleNav={handleNav} 
+                        />}
+                    />
+                    <Route path='/signup' element={
+                        <Signup
+                            handleNav={handleNav} 
+                        />}
+                    />
+                    <Route path='/accounts/profile' element={
+                        <Profile
+                            games={games}
+                            setGames={setGames}
+                            isLoading={isLoading}
+                            setIsLoading={setIsLoading}
+                            handleCreateGame={handleCreateGame}
+                            handleGetGame={handleGetGame}
+                            handleDeleteGame={handleDeleteGame}
+                        />}
+                    />
+                </Routes>
+            </>
         </>
     )
 }
