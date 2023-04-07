@@ -7,7 +7,7 @@ function Home({history, setHistory, gameId, setGameId, isLoading, setIsLoading, 
 	useEffect(() => {
 		getGame(1)
 		.then(res => {
-			setHistory(res.history)
+			setHistory(JSON.parse(res.history))
 			setGameId(res.id)
 		})
 	}, [])

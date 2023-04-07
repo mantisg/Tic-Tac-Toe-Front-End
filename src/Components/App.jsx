@@ -54,7 +54,7 @@ function AppRender({appData, history, setHistory, players, setPlayers, isLoading
         return createGame()
         .then(res => {
             setGameId(res.id)
-            setHistory(res.history)
+            setHistory(JSON.parse(res.history))
             setIsPlaying(true)
             navigate(`/games/${res.id}`)
         })
@@ -64,7 +64,7 @@ function AppRender({appData, history, setHistory, players, setPlayers, isLoading
         return getGame(gameId)
         .then(res => {
             setGameId(res.id)
-            setHistory(res.history)
+            setHistory(JSON.parse(res.history))
             setIsPlaying(true)
             navigate(`/games/${gameId}`)
         })
