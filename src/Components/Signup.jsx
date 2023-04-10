@@ -1,4 +1,5 @@
 import {useState} from 'react'
+import {useNavigate} from 'react-router-dom'
 import { InputText } from 'primereact/inputtext';
 import {Password} from "primereact/password"
 import {useForm} from "react-hook-form"
@@ -9,7 +10,9 @@ import "primereact/resources/primereact.min.css"
 import "primeicons/primeicons.css"
 import "../styles.css"
 
-export default function Signup({handleNav, setUsername, setPassword}) {
+export default function Signup({setUsername, setPassword}) {
+	const navigate = useNavigate()
+	
 	const validationSchema = Yup.object().shape({
 		password: Yup.string()
 			.required("Password is required"),

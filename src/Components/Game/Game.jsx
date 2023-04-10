@@ -1,5 +1,4 @@
 import {useState, useEffect} from 'react'
-import {updateHistory} from '../../api-comm'
 import Board from './Board'
 import './game.css'
 
@@ -7,10 +6,6 @@ function Game({history, setHistory, gameId}) {
   const [currentMove, setCurrentMove] = useState(history.length - 1)
   const xIsNext = currentMove % 2 === 0
   const currentSquares = history[currentMove]
-
-  useEffect(() => {
-    updateHistory(gameId, history)
-  })
 
   function handlePlay(nextSquares) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares]

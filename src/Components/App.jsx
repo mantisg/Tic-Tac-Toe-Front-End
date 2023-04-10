@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react'
 import { Routes, Route, useNavigate } from "react-router-dom"
 import CottageIcon from '@mui/icons-material/Cottage';
-import {getAppData, createGame, getGame, getAllGames, deleteGame} from '../api-comm'
+import {getAppData, createGame, getGame, getAllGames, deleteGame, updateHistory} from '../api-comm'
 import Game from './Game/Game'
 import Home from './Home'
 import Login from './Login'
@@ -11,21 +11,30 @@ import '../styles.css'
 
 export default function App() {
     const [history, setHistory] = useState([])
-    const [gameId, setGameId] = useState([])
+    const [gameId, setGameId] = useState(null)
     const [games, setGames] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [isPlaying, setIsPlaying] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
-        getAllGames()
-        getGame(1)
-        .then(res => {
-            setHistory(JSON.parse(res.history))
-            setGameId(res.id)
-            setIsLoading(false)
-        })
-    }, [])
+        !gameId
+        ? (
+            getAppData()
+            .then(res => {
+                setHistory(res.history)
+                setIsLoading(false)
+            })
+        ) : (
+            getGame(gameId)
+            .then(res => {
+                setHistory(JSON.parse(res.history))
+                setIsPlaying(true)
+                setIsLoading(false)
+                navigate(`/game/${gameId}`)
+            })
+        )
+    }, [gameId])
 
     function handleCreateGame() {
         return createGame()
@@ -47,23 +56,16 @@ export default function App() {
         })
     }
 
-    function handleDeleteGame(id) {
-        deleteGame(id)
-    }
+    useEffect(() => {
+        if (gameId !== null) {
+            updateHistory(gameId, history)
+        }
+    }, [history])
 
-    function handleNav(path) {
-        navigate(path)
-    }
-
-    function handleClick(path) {
-        getGame(1)
-        .then(res => {
-            setHistory(JSON.parse(res.history))
-            setGameId(res.id)
-            setIsPlaying(false)
-            setIsLoading(false)
-        })
-        handleNav(path)
+    function handleHomeNav() {
+        //setGameId(null)
+        setIsPlaying(false)
+        navigate('/')
     }
 
     return (
@@ -72,15 +74,14 @@ export default function App() {
             ? (<p>loading...</p>)
             : (<>
                 <div className="homeflex">
-                    <CottageIcon onClick={() => handleClick('/')} />
+                    <CottageIcon onClick={() => handleHomeNav()} />
                     {isPlaying &&
-                        <button className="back" onClick={() => handleClick('/accounts/profile')}>Back to Profile</button>
+                        <button className="back" onClick={() => navigate('/accounts/profile')}>Back to Profile</button>
                     }
                 </div>
                 <Routes>
                     <Route path="/" element={
                         <Home
-                            handleNav={handleNav}
                             history={history}
                             setHistory={setHistory}
                             gameId={gameId}
@@ -96,24 +97,19 @@ export default function App() {
                         />}
                     />
                     <Route path='/login' element={
-                        <Login
-                            handleNav={handleNav} 
-                        />}
+                        <Login/>}
                     />
                     <Route path='/signup' element={
-                        <Signup
-                            handleNav={handleNav} 
-                        />}
+                        <Signup/>}
                     />
                     <Route path='/accounts/profile' element={
                         <Profile
                             games={games}
                             setGames={setGames}
+                            setGameId={setGameId}
                             isLoading={isLoading}
                             setIsLoading={setIsLoading}
                             handleCreateGame={handleCreateGame}
-                            handleGetGame={handleGetGame}
-                            handleDeleteGame={handleDeleteGame}
                         />}
                     />
                 </Routes>
